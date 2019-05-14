@@ -14,5 +14,5 @@ int main (int argc, char ** argv)
 
   close_FS ();
 
-  return EXIT_SUCCESS;  
+  return EXIT_SUCCESS;
 }

@@ -1,6 +1,7 @@
 #include "fat.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int file_found (char * file ) {
   int i;
@@ -13,6 +14,20 @@ int file_found (char * file ) {
   }
   /* finchier n'existe pas */
   return 1;
+}
+
+// returns the index of the file in the Dir array or else -1
+int file_index(char *file) {
+  int i;
+  struct ent_dir * pt = pt_DIR;
+
+  for (i=0; i< NB_DIR; i++) {
+    if ((pt->del_flag) && (!strcmp (pt->name, file))) 
+      return i;
+    pt++;
+  }
+  /* finchier n'existe pas */
+  return -1;
 }
 
 
@@ -44,15 +59,19 @@ void list_dir ( ) {
   printf("total %d\n", count);
 }
 
-void print_blocks(struct ent_dir* pt) {
-  int nb_blocks = (pt->size + SIZE_SECTOR - 1) / SIZE_SECTOR;
-  short pt_blocks[nb_blocks];
+void print_blocks(struct ent_dir *pt) {
+  short nb = nb_blocks(pt);
+  short pt_blocks[nb];
   list_blocks(pt->first_bloc, pt_blocks);
   int i;
-  for (i = 0; i < nb_blocks; i++)
+  for (i = 0; i < nb; i++)
   {
     printf("%d ", pt_blocks[i]);
   }
+}
+
+short nb_blocks(struct ent_dir *pt) {
+  return (pt->size + SIZE_SECTOR - 1) / SIZE_SECTOR;
 }
 
 int list_blocks(short first_block, short *pt_blocks) {
@@ -69,31 +88,56 @@ int list_blocks(short first_block, short *pt_blocks) {
 }
 
 int cat_file (char* file) {
- /* A COMPLETER */
+  int index = file_index(file);
+  if (index == -1) return 1;
+  struct ent_dir *pt = pt_DIR + index;
+  short nb = nb_blocks(pt);
+  short pt_blocks[nb];
+  char * text = malloc(SIZE_SECTOR);
+  int i;
+  list_blocks(pt->first_bloc, pt_blocks);
+  for (i = 0; i < nb; i++)
+  {
+    if (read_sector(pt_blocks[i], text))
+    {
+      free(text);
+      return 1;
+    }
+    printf("%s", text);
+  }
+  free(text);
+  printf("\n");
+  return 0;
 }
 
 int mv_file (char*file1, char *file2) {
-   /* A COMPLETER */
+  /* A COMPLETER */
+  return 1;
 }
 
 int delete_file (char* file)
 {
-   /* A COMPLETER */  
+   /* A COMPLETER */
+  return 1;
 }
 
 int create_file (char *file) {
-  /* A COMPLETER */  
+  /* A COMPLETER */
+  return 1;
 }
 
 
 short alloc_bloc () { 
-  /* A COMPLETER */  
+  /* A COMPLETER */
+  return 1;
 }
  	
-int append_file  (char*file, char *buffer, short size) { 
-  /* A COMPLETER */  
+int append_file (char*file, char *buffer, short size) { 
+  /* A COMPLETER */
+  return 1;
 }
 
-struct ent_dir*  read_dir (struct ent_dir *pt_ent ) {
-  /* A COMPLETER */  
+struct ent_dir* read_dir (struct ent_dir *pt_ent ) {
+  /* A COMPLETER */
+  return 1;
 }
