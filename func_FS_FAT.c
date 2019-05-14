@@ -139,5 +139,5 @@ int append_file (char*file, char *buffer, short size) {
 
 struct ent_dir* read_dir (struct ent_dir *pt_ent ) {
   /* A COMPLETER */
-  return 1;
+  return NULL;
 }
