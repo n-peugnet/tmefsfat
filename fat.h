@@ -55,6 +55,7 @@ int file_found (char* );
 int file_index(char *);
 void list_dir ( );
 void print_blocks(struct ent_dir*);
+void free_blocks(struct ent_dir*);
 short nb_blocks(struct ent_dir*);
 int list_blocks(short, short*);
 int cat_file (char*);

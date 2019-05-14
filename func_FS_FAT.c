@@ -70,6 +70,17 @@ void print_blocks(struct ent_dir *pt) {
   }
 }
 
+void free_blocks(struct ent_dir *pt) {
+  short nb = nb_blocks(pt);
+  short pt_blocks[nb];
+  list_blocks(pt->first_bloc, pt_blocks);
+  int i;
+  for (i = 0; i < nb; i++)
+  {
+    pt_FAT[pt_blocks[i]] = 0;
+  }
+}
+
 short nb_blocks(struct ent_dir *pt) {
   return (pt->size + SIZE_SECTOR - 1) / SIZE_SECTOR;
 }
@@ -123,8 +134,13 @@ int mv_file (char*file1, char *file2) {
 
 int delete_file (char* file)
 {
-   /* A COMPLETER */
-  return 1;
+  int index = file_index(file);
+  if (index == -1) return 1;
+  struct ent_dir *pt = pt_DIR + index;
+  pt->del_flag = 0;
+  free_blocks(pt);
+  write_DIR_FAT_sectors();
+  return 0;
 }
 
 int create_file (char *file) {
