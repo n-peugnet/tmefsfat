@@ -30,6 +30,16 @@ void list_fat () {
 
 void list_dir ( ) {
   struct ent_dir *pt = pt_DIR;
+  int i;
+  int count = 0;
+  for (i=0; i< NB_DIR; i++) {
+    if (pt->del_flag) {
+      printf("%d %s\n", pt->size, pt->name);
+      count++;
+    }
+    pt++;
+  }
+  printf("total %d\n", count);
 }
 
 int cat_file (char* file) {
