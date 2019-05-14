@@ -20,6 +20,9 @@
 /* taille en octet du repertoire */
 #define SIZE_DIR  NB_DIR*sizeof(struct ent_dir)
 
+/* nom du fichier : 8 caracteres + 0 */
+#define SIZE_FILE_NAME 9
+
 /*FIN FICHIER : utilis� dans la FAT */ 
 #define FIN_FICHIER -1
 
@@ -36,7 +39,7 @@ extern struct ent_dir* pt_DIR;
 /* entree d'un repertoire */
 struct ent_dir{
   char del_flag; /* 0: entree libre ; 1 : entree occupe */
-  char name[9]; /* nom du fichier : 8 caracteres + 0 */
+  char name[SIZE_FILE_NAME]; /* nom du fichier : 8 caracteres + 0 */
   short first_bloc; /* premier bloc du fichier */
   short last_bloc; /* dernier bloc du fichier */
   short size; /* taille */

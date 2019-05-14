@@ -11,11 +11,19 @@ int main (int argc, char ** argv)
   list_dir ();
   
 
-  if (mv_file (argv[1], argv[2]))
+  switch (mv_file (argv[1], argv[2]))
+  {
+  case 1:
     printf ("%s n'existe pas\n", argv[1]);
-  else { 
+    break;
+  case 2:
+    printf ("%s existe déjà\n", argv[2]);
+    break;
+
+  default:
     printf ("\nREPETOIRE APRES :\n");
     list_dir ();
+    break;
   }
 
   close_FS ();

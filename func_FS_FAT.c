@@ -111,8 +111,14 @@ int cat_file (char* file) {
 }
 
 int mv_file (char*file1, char *file2) {
-  /* A COMPLETER */
-  return 1;
+  int index = file_index(file1);
+  if (index == -1) return 1;
+  if (!file_found(file2)) return 2;
+  struct ent_dir *pt = pt_DIR + index;
+  strncpy(pt->name, file2, SIZE_FILE_NAME);
+  pt->name[SIZE_FILE_NAME - 1] = '\0';
+  write_DIR_FAT_sectors();
+  return 0;
 }
 
 int delete_file (char* file)
