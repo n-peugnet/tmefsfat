@@ -5,7 +5,7 @@
 /* taille d'un  bloc (secteur) */
 #define SIZE_SECTOR 128
 
-/* nombre de secteur occupé par la FAT */
+/* nombre de secteur occupï¿½ par la FAT */
 #define NB_SECTOR_FAT 2
 
 /* nombre d'entree de FAT par bloc */
@@ -20,7 +20,7 @@
 /* taille en octet du repertoire */
 #define SIZE_DIR  NB_DIR*sizeof(struct ent_dir)
 
-/*FIN FICHIER : utilisé dans la FAT */ 
+/*FIN FICHIER : utilisï¿½ dans la FAT */ 
 #define FIN_FICHIER -1
 
 #define DISC "disque_image"
@@ -50,6 +50,8 @@ int write_DIR_FAT_sectors ( );
 void list_fat ();
 int file_found (char* );
 void list_dir ( );
+void print_blocks(struct ent_dir*);
+int list_blocks(short, short*);
 int cat_file (char*);
 int mv_file (char*, char*);
 int delete_file (char*);

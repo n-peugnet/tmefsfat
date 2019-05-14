@@ -34,12 +34,38 @@ void list_dir ( ) {
   int count = 0;
   for (i=0; i< NB_DIR; i++) {
     if (pt->del_flag) {
-      printf("%d %s\n", pt->size, pt->name);
+      printf("%d %s ", pt->size, pt->name);
+      print_blocks(pt);
+      printf("\n");
       count++;
     }
     pt++;
   }
   printf("total %d\n", count);
+}
+
+void print_blocks(struct ent_dir* pt) {
+  int nb_blocks = (pt->size + SIZE_SECTOR - 1) / SIZE_SECTOR;
+  short pt_blocks[nb_blocks];
+  list_blocks(pt->first_bloc, pt_blocks);
+  int i;
+  for (i = 0; i < nb_blocks; i++)
+  {
+    printf("%d ", pt_blocks[i]);
+  }
+}
+
+int list_blocks(short first_block, short *pt_blocks) {
+  short * pt_fat = pt_FAT;
+  short next_block = first_block;
+  short index = 0;
+  while (next_block != -1)
+  {
+    pt_blocks[index] = next_block;
+    index++;
+    next_block = pt_fat[next_block];
+  }
+  return 0;
 }
 
 int cat_file (char* file) {
