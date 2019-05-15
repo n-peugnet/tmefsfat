@@ -30,6 +30,17 @@ int file_index(char *file) {
   return -1;
 }
 
+// returns the index of the first free index in the Dir array or else -1
+int find_free_index(char *file) {
+  int i;
+  struct ent_dir * pt = pt_DIR;
+  for (i=0; i< NB_DIR; i++) {
+    if (!pt->del_flag)
+      return i;
+    pt++;
+  }
+  return -1;
+}
 
 void list_fat () {
   int i;
@@ -126,10 +137,14 @@ int mv_file (char*file1, char *file2) {
   if (index == -1) return 1;
   if (!file_found(file2)) return 2;
   struct ent_dir *pt = pt_DIR + index;
-  strncpy(pt->name, file2, SIZE_FILE_NAME);
-  pt->name[SIZE_FILE_NAME - 1] = '\0';
+  set_file_name(pt, file2);
   write_DIR_FAT_sectors();
   return 0;
+}
+
+void set_file_name(struct ent_dir *pt, char* name) {
+  strncpy(pt->name, name, SIZE_FILE_NAME);
+  pt->name[SIZE_FILE_NAME - 1] = '\0';
 }
 
 int delete_file (char* file)
@@ -144,8 +159,17 @@ int delete_file (char* file)
 }
 
 int create_file (char *file) {
-  /* A COMPLETER */
-  return 1;
+  int index = find_free_index(file);
+  if (index == -1) return 1;
+  if (!file_found(file)) return 2;
+  struct ent_dir *pt = pt_DIR + index;
+  set_file_name(pt, file);
+  pt->del_flag = 1;
+  pt->first_bloc = FIN_FICHIER;
+  pt->last_bloc = FIN_FICHIER;
+  pt->size = 0;
+  write_DIR_FAT_sectors();
+  return 0;
 }
 
 
