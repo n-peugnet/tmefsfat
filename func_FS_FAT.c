@@ -53,7 +53,6 @@ void list_fat () {
   printf ("\n");
 }
 
-
 void list_dir ( ) {
   struct ent_dir *pt = pt_DIR;
   int i;
@@ -173,9 +172,17 @@ int create_file (char *file) {
 }
 
 
-short alloc_bloc () { 
-  /* A COMPLETER */
-  return 1;
+short alloc_bloc () {
+  int i;
+  short *pt = pt_FAT;
+  for (i=0; i < NB_ENT_FAT; i++, pt++) {
+    if (!*pt) {
+      *pt = FIN_FICHIER;
+      write_DIR_FAT_sectors();
+      return i;
+    }
+  }
+  return -1;
 }
  	
 int append_file (char*file, char *buffer, short size) { 
