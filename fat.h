@@ -53,7 +53,7 @@ int write_DIR_FAT_sectors ( );
 void list_fat ();
 int file_found (char* );
 int file_index(char*);
-int find_free_index(char*);
+int find_free_index();
 void list_dir ( );
 void print_blocks(struct ent_dir*);
 void free_blocks(struct ent_dir*);

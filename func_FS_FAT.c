@@ -31,7 +31,7 @@ int file_index(char *file) {
 }
 
 // returns the index of the first free index in the Dir array or else -1
-int find_free_index(char *file) {
+int find_free_index() {
   int i;
   struct ent_dir * pt = pt_DIR;
   for (i=0; i< NB_DIR; i++) {
@@ -159,7 +159,7 @@ int delete_file (char* file)
 }
 
 int create_file (char *file) {
-  int index = find_free_index(file);
+  int index = find_free_index();
   if (index == -1) return 1;
   if (!file_found(file)) return 2;
   struct ent_dir *pt = pt_DIR + index;
